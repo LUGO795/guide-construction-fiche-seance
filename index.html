@@ -1,0 +1,1218 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14181F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Crect x=%273%27 y=%272.5%27 width=%2718%27 height=%2719%27 rx=%272.5%27 fill=%27%2314181F%27 stroke=%27%23E2C26A%27 stroke-width=%271.8%27/%3E%3C/svg%3E">
+<title>Guide de la fiche de séance</title>
+<meta name="description" content="Guide pas à pas pour rédiger une fiche de séance complète sur n'importe quel thème : cybersécurité, Arduino Uno R3, messagerie électronique… Douze rubriques, exemples, calculateur de déroulé et modèle à copier.">
+<style>
+html,body{margin:0}
+/* Layout : bandeau d'outils collant, en-tête éditorial, sommaire latéral collant + colonne d'étapes ; une seule colonne sous 64rem.
+   Système « Obsidienne & Or » — clair : papier ivoire / encre obsidienne ; sombre : obsidienne / or. */
+:root{
+  --bg:#FBF8F1; --bg-2:#F2ECDD; --surface:#FFFFFF; --ink:#16130D; --muted:#554D3F; --line:#E2D8C2;
+  --gold:#7A5C0E; --gold-hi:#B8902A; --gold-soft:#F3E7C6; --obsidian:#14181F; --on-obsidian:#F5EEDC;
+  --ok:#1F6B45; --shadow:0 1px 2px rgba(22,19,13,.06),0 8px 24px rgba(22,19,13,.07);
+  --display:"Playfair Display","Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --body:"Atkinson Hyperlegible",-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  --scale:1; --radius:.75rem;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1116; --bg-2:#161A21; --surface:#1A1F27; --ink:#F1EADB; --muted:#BDB4A2; --line:#2C323C;
+  --gold:#E2C26A; --gold-hi:#F0D68C; --gold-soft:#2A2618; --obsidian:#05070A; --on-obsidian:#F5EEDC;
+  --ok:#6FD3A0; --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1116; --bg-2:#161A21; --surface:#1A1F27; --ink:#F1EADB; --muted:#BDB4A2; --line:#2C323C;
+  --gold:#E2C26A; --gold-hi:#F0D68C; --gold-soft:#2A2618; --obsidian:#05070A; --on-obsidian:#F5EEDC;
+  --ok:#6FD3A0; --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35); color-scheme:dark}
+:root[data-theme="light"]{color-scheme:light}
+
+html{font-size:calc(100% * var(--scale));scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1.0625rem;line-height:1.65;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--obsidian)}
+*,*::before,*::after{box-sizing:border-box}
+h1,h2,h3{font-family:var(--display);line-height:1.15;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--gold);text-underline-offset:.18em;text-decoration-thickness:.08em}
+a:hover{color:var(--ink)}
+:focus-visible{outline:3px solid var(--gold-hi);outline-offset:3px;border-radius:.25rem}
+.sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.gutter{padding-left:max(1rem,env(safe-area-inset-left,0px));padding-right:max(1rem,env(safe-area-inset-right,0px))}
+.wrap{max-width:76rem;margin-inline:auto}
+.skip{position:absolute;left:1rem;top:-10rem;z-index:100;background:var(--gold-hi);color:#16130D;padding:.6rem 1rem;border-radius:.5rem;font-weight:700}
+.skip:focus{top:calc(env(safe-area-inset-top,0px) + .5rem)}
+
+/* ── Barre de défilement aux couleurs de la page */
+::-webkit-scrollbar{width:.9rem;height:.9rem}
+::-webkit-scrollbar-track{background:var(--bg-2);border-left:1px solid var(--line)}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,var(--obsidian));border-radius:1rem;border:.2rem solid var(--bg-2)}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,var(--gold-hi),var(--gold))}
+::-webkit-scrollbar-corner{background:var(--bg-2)}
+@supports (-moz-appearance:none){html{scrollbar-color:var(--gold) var(--bg-2)}}
+.progress{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);height:.22rem;z-index:70;background:transparent;pointer-events:none}
+.progress span{display:block;height:100%;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--obsidian),var(--gold),var(--gold-hi))}
+
+/* ── Bandeau d'outils */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--obsidian);color:var(--on-obsidian);border-bottom:1px solid #2E2A1F}
+.bar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;padding-block:.55rem}
+.brand{font-family:var(--display);font-size:1.05rem;font-weight:700;letter-spacing:.02em;color:var(--on-obsidian);text-decoration:none;margin-right:auto;display:flex;align-items:center;gap:.5rem;min-width:0}
+.brand b{color:#E2C26A;font-weight:700}
+.clock{display:flex;flex-direction:column;align-items:flex-end;line-height:1.15;font-family:var(--mono);font-variant-numeric:tabular-nums;min-width:0}
+.clock .t{white-space:nowrap;font-size:1.15rem;font-weight:700;color:#F0D68C;letter-spacing:.04em;display:flex}
+.clock .d{font-size:.72rem;color:#CFC6B2;text-transform:capitalize}
+.sec{display:inline-block;flex:none;overflow:hidden;height:1.2em;vertical-align:top}
+.sec i{display:block;font-style:normal}
+.sec i.ta{animation:ta .45s cubic-bezier(.2,.8,.2,1)}.sec i.tb{animation:tb .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes ta{from{transform:translateY(-100%);opacity:0}to{transform:none;opacity:1}}@keyframes tb{from{transform:translateY(-100%);opacity:0}to{transform:none;opacity:1}}
+.tools{display:flex;align-items:center;gap:.35rem;flex-wrap:wrap}
+.tbtn{appearance:none;border:1px solid #4A4330;background:#1F242D;color:var(--on-obsidian);min-width:2.75rem;height:2.75rem;padding:0 .6rem;border-radius:.6rem;font:700 1rem/1 var(--body);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.3rem;transition:background .2s,border-color .2s,transform .15s}
+.tbtn:hover{background:#2A303A;border-color:#E2C26A}
+.tbtn:active{transform:scale(.95)}
+.tbtn:disabled{opacity:.45;cursor:not-allowed}
+.tbtn svg{width:1.15rem;height:1.15rem}
+.zoom-val{font-family:var(--mono);font-size:.8rem;color:#CFC6B2;min-width:3.2rem;text-align:center;font-variant-numeric:tabular-nums}
+
+/* ── En-tête */
+.hero{background:radial-gradient(120% 140% at 85% -20%,#3A3220 0%,transparent 55%),var(--obsidian);color:var(--on-obsidian);border-bottom:.25rem solid #B8902A}
+.hero .wrap{padding-block:clamp(2.2rem,6vw,4.5rem);display:grid;gap:1.4rem}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:#E2C26A}
+.hero h1{font-size:clamp(2rem,1.2rem + 4.2vw,4rem);font-weight:700;max-width:18ch}
+.hero h1 em{color:#F0D68C;font-style:italic;font-weight:600}
+.lede{max-width:62ch;font-size:1.12rem;color:#E4DCCA}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;padding:0;margin:0;list-style:none}
+.chips li{border:1px solid #5A4F33;color:#EADFC4;border-radius:2rem;padding:.3rem .8rem;font-size:.85rem}
+
+/* ── Mise en page principale */
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:2rem;padding-block:2.5rem 4rem}
+@media (min-width:64rem){.layout{grid-template-columns:16rem minmax(0,1fr);gap:3rem}}
+.toc{min-width:0}
+@media (min-width:64rem){.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 5rem);align-self:start;max-height:calc(100vh - 6rem);overflow:auto}}
+.toc details{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.toc summary{cursor:pointer;padding:.8rem 1rem;font-weight:700;font-family:var(--display);font-size:1.1rem}
+.toc ol{list-style:none;margin:0;padding:0 .5rem .8rem;counter-reset:t}
+.toc li a{display:flex;gap:.6rem;align-items:baseline;padding:.35rem .5rem;border-radius:.4rem;text-decoration:none;color:var(--muted);font-size:.93rem;line-height:1.35}
+.toc li a:hover{background:var(--bg-2);color:var(--ink)}
+.toc li a.on{background:var(--gold-soft);color:var(--ink);font-weight:700}
+.toc .n{font-family:var(--mono);font-size:.75rem;color:var(--gold);min-width:1.6rem;font-variant-numeric:tabular-nums}
+main{min-width:0;display:grid;grid-template-columns:minmax(0,1fr);gap:2.2rem}
+
+/* Sélecteur d'exemple */
+.picker{min-width:0;margin:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:1.1rem 1.2rem;display:grid;gap:.8rem;box-shadow:var(--shadow)}
+.picker legend{font-family:var(--display);font-weight:700;font-size:1.15rem;padding:0 .3rem}
+.picker p{color:var(--muted);font-size:.95rem}
+.seg{display:flex;flex-wrap:wrap;gap:.5rem}
+.seg input{position:absolute;opacity:0;width:1px;height:1px}
+.seg label{cursor:pointer;border:1px solid var(--line);border-radius:2rem;padding:.55rem 1rem;min-height:2.75rem;display:inline-flex;align-items:center;font-weight:700;font-size:.95rem;background:var(--bg);transition:background .2s,border-color .2s}
+.seg label:hover{border-color:var(--gold)}
+.seg input:checked+label{background:var(--obsidian);color:var(--on-obsidian);border-color:var(--obsidian)}
+:root[data-theme="dark"] .seg input:checked+label{background:var(--gold);color:#16130D;border-color:var(--gold)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg input:checked+label{background:var(--gold);color:#16130D;border-color:var(--gold)}}
+.seg input:focus-visible+label{outline:3px solid var(--gold-hi);outline-offset:3px}
+
+/* Exemples : affichés selon le thème choisi (sans JavaScript) */
+.ex{display:none}
+.show-cyber .ex--cyber,.show-arduino .ex--arduino,.show-mail .ex--mail{display:block}
+
+/* Phases */
+.phase{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1rem;margin-top:1rem}
+.phase h2{font-size:clamp(1.4rem,1.1rem + 1.2vw,1.9rem)}
+.phase::after{content:"";flex:1 1 3rem;min-width:0;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.phase .tag{font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+
+/* Étape */
+.step{content-visibility:auto;contain-intrinsic-size:auto 32rem;position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 1.1rem;scroll-margin-top:calc(env(safe-area-inset-top,0px) + 5.5rem)}
+.num{width:3rem;height:3rem;border-radius:50%;display:grid;place-items:center;background:var(--obsidian);color:#F0D68C;font-family:var(--display);font-weight:700;font-size:1.2rem;border:2px solid var(--gold-hi);position:relative}
+.step::before{content:"";position:absolute;left:calc(1.5rem - 1px);top:3.4rem;bottom:-1.6rem;width:2px;background:linear-gradient(var(--gold),transparent)}
+.step:last-of-type::before,.step#e12::before{display:none}
+.step-body{display:grid;gap:.9rem;min-width:0;padding-bottom:.5rem}
+.step h3{font-size:clamp(1.3rem,1.05rem + 1vw,1.7rem);padding-top:.35rem}
+.step h3 small{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:400;margin-bottom:.25rem}
+.step-body>p{max-width:68ch}
+.step ul,.step ol.list{margin:0;padding-left:1.25rem;display:grid;gap:.35rem;max-width:68ch}
+.step li::marker{color:var(--gold)}
+.tip{border-left:.25rem solid var(--gold-hi);background:var(--gold-soft);padding:.8rem 1rem;border-radius:0 .5rem .5rem 0;max-width:68ch}
+.tip strong{color:var(--ink)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1rem 1.15rem;box-shadow:var(--shadow);min-width:0}
+.card h4{margin:0 0 .5rem;font-size:.78rem;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.example{position:relative;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2);padding:1rem 1.15rem 1.1rem;min-width:0}
+.example .label{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem}
+.example .label::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--gold-hi)}
+.example p+p,.example p+ul,.example ul+p{margin-top:.5rem}
+.grid2{display:grid;gap:.8rem}
+@media (min-width:40rem){.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.step ul.verbs{display:flex;flex-wrap:wrap;gap:.4rem;padding:0;margin:0;list-style:none}
+.verbs li{background:var(--surface);border:1px solid var(--line);border-radius:.4rem;padding:.2rem .55rem;font-size:.9rem}
+.verbs.bad li{text-decoration:line-through;text-decoration-color:var(--gold);color:var(--muted)}
+
+/* Tableaux */
+.tscroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:30rem;font-size:.93rem}
+th,td{text-align:left;padding:.6rem .8rem;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{background:var(--obsidian);color:#F0D68C;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+tbody tr:last-child td{border-bottom:0}
+td.min{font-family:var(--mono);font-weight:700;color:var(--gold);white-space:nowrap;font-variant-numeric:tabular-nums}
+tfoot td{font-weight:700;background:var(--bg-2)}
+
+/* Calculateur */
+.calc{display:grid;gap:1rem}
+.calc-row{display:flex;flex-wrap:wrap;align-items:end;gap:.8rem}
+.field{display:grid;gap:.3rem}
+.field label{font-weight:700;font-size:.92rem}
+.field input{font:700 1.1rem var(--mono);width:8rem;max-width:100%;height:2.75rem;padding:0 .7rem;border-radius:.5rem;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.bars{display:flex;height:.8rem;border-radius:1rem;overflow:hidden;border:1px solid var(--line)}
+.bars span{display:block;height:100%}
+
+/* Modèle à copier */
+.model{position:relative}
+pre{margin:0;overflow-x:auto;background:var(--obsidian);color:#EDE4CF;border-radius:var(--radius);padding:1.1rem 1.2rem;font:.85rem/1.6 var(--mono);border:1px solid #2E2A1F}
+.btn{appearance:none;border:0;cursor:pointer;min-height:2.75rem;padding:.55rem 1.1rem;border-radius:.6rem;font:700 .95rem var(--body);background:var(--obsidian);color:var(--on-obsidian);display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--gold);transition:transform .15s,background .2s}
+.btn:hover{background:#262B33}
+.btn:active{transform:scale(.97)}
+.copied{color:var(--ok);font-weight:700;font-size:.92rem}
+
+/* Liste de relecture */
+.check{list-style:none!important;padding:0!important}
+.check li{display:flex;gap:.7rem;align-items:flex-start}
+.check input{width:1.35rem;height:1.35rem;margin-top:.2rem;accent-color:var(--gold);flex:none}
+.check label{cursor:pointer}
+.count{font-family:var(--mono);font-size:.9rem;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);background:var(--bg-2)}
+footer .wrap{padding-block:1.6rem;color:var(--muted);font-size:.9rem;display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;justify-content:space-between}
+
+/* ── Bouton retour en haut */
+.totop{position:fixed;z-index:80;right:max(1rem,calc(env(safe-area-inset-right,0px) + 1rem));bottom:max(1rem,calc(env(safe-area-inset-bottom,0px) + 1rem));width:4.25rem;height:4.25rem;border-radius:50%;border:0;padding:0;cursor:pointer;background:transparent;opacity:0;transform:translateY(1.5rem) scale(.6);pointer-events:none;transition:opacity .35s,transform .45s cubic-bezier(.2,1.4,.3,1)}
+.totop.show{opacity:1;transform:none;pointer-events:auto}
+.totop .core{position:absolute;inset:.45rem;border-radius:50%;background:radial-gradient(circle at 30% 25%,#3A3324,#14181F 60%,#05070A);box-shadow:0 0 0 1px #6B5A2C inset,0 10px 28px rgba(0,0,0,.35),0 0 0 0 rgba(226,194,106,.55);display:grid;place-items:center;overflow:hidden;transition:box-shadow .3s}
+.totop .core::before{content:"";position:absolute;inset:-60%;background:conic-gradient(from 0deg,transparent 0 70%,rgba(240,214,140,.55) 80%,transparent 90%)}
+.totop.show .core::before{animation:sweep 3.2s linear infinite}
+.totop .core::after{content:"";position:absolute;inset:2px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#3A3324,#14181F 60%,#05070A)}
+@keyframes sweep{to{transform:rotate(1turn)}}
+.totop svg.ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.totop .track{fill:none;stroke:rgba(184,144,42,.25);stroke-width:3}
+.totop .val{fill:none;stroke:url(#gold);stroke-width:3.4;stroke-linecap:round;transition:stroke-dashoffset .12s linear}
+.totop .arrow{position:relative;z-index:2;width:1.6rem;height:1.6rem;color:#F0D68C;transition:transform .3s}
+.totop:hover .core{box-shadow:0 0 0 1px #E2C26A inset,0 14px 34px rgba(0,0,0,.4),0 0 0 .5rem rgba(226,194,106,.15)}
+.totop:hover .arrow{transform:translateY(-.2rem)}
+.totop:focus-visible{outline:3px solid var(--gold-hi);outline-offset:4px}
+.totop.launch .arrow{animation:launch .9s cubic-bezier(.5,0,.2,1)}
+.totop.launch .core{animation:pulse .9s ease-out}
+@keyframes launch{0%{transform:none}35%{transform:translateY(-3.2rem);opacity:0}36%{transform:translateY(2.4rem);opacity:0}100%{transform:none;opacity:1}}
+@keyframes pulse{0%{box-shadow:0 0 0 1px #E2C26A inset,0 0 0 0 rgba(226,194,106,.6)}100%{box-shadow:0 0 0 1px #6B5A2C inset,0 0 0 1.4rem rgba(226,194,106,0)}}
+.spark{position:fixed;z-index:79;width:.4rem;height:.4rem;border-radius:50%;background:#F0D68C;pointer-events:none;box-shadow:0 0 .5rem #E2C26A;animation:spark .8s ease-out forwards}
+@keyframes spark{to{transform:translate(var(--x),var(--y)) scale(.2);opacity:0}}
+.arrival{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);height:.3rem;z-index:90;pointer-events:none;background:linear-gradient(90deg,transparent,#F0D68C,#B8902A,#F0D68C,transparent);transform:scaleX(0);opacity:0}
+.arrival.go{animation:arrive 1.1s cubic-bezier(.2,.8,.2,1)}
+@keyframes arrive{0%{transform:scaleX(0);opacity:1}55%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+
+/* Très petits écrans */
+@media (max-width:22rem){
+  .clock{align-items:flex-start;order:3;width:100%}
+  .brand{font-size:.95rem}
+  .step{grid-template-columns:minmax(0,1fr)}
+  .num{width:2.5rem;height:2.5rem;font-size:1rem;margin-bottom:.4rem}
+  .step::before{display:none}
+  .totop{width:3.6rem;height:3.6rem}
+  .tbtn{min-width:2.6rem;padding:0 .45rem}
+}
+
+/* ══════════ QR Code Ko-fi : en-tête, à droite des textes ══════════ */
+@media (min-width:56rem){
+  .hero .wrap{grid-template-columns:minmax(0,1fr) auto;column-gap:clamp(2rem,5vw,4.5rem)}
+  .hero .wrap>*{grid-column:1}
+  .hero .wrap>.qr{grid-column:2;grid-row:1/span 4;align-self:center;justify-self:end}
+}
+.hero .qr{position:relative;display:block;width:clamp(12.5rem,9rem + 9vw,16.5rem);max-width:100%;justify-self:start;
+  text-decoration:none;color:inherit;perspective:60rem;border-radius:1.4rem;
+  animation:qr-in 1.1s cubic-bezier(.2,.8,.2,1) .25s both,qr-float 6s ease-in-out 1.4s infinite}
+.hero .qr:focus-visible{outline:3px solid #F0D68C;outline-offset:6px}
+
+/* Halo doré qui respire */
+.qr-halo{position:absolute;inset:-14%;z-index:0;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(226,194,106,.5),rgba(184,144,42,.16) 55%,transparent 76%);
+  filter:blur(18px);animation:qr-pulse 4s ease-in-out infinite}
+
+/* Carte : s'adapte au mode clair (ivoire) et au mode sombre (obsidienne) */
+.qr-card{--rx:0deg;--ry:0deg;--mx:50%;--my:50%;position:relative;z-index:1;display:grid;gap:.85rem;
+  padding:.9rem .9rem 1rem;border-radius:1.4rem;color:var(--ink);
+  background:linear-gradient(160deg,var(--surface),var(--gold-soft));
+  border:1px solid rgba(226,194,106,.55);
+  box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 22px 50px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.35);
+  transform:rotateX(var(--rx)) rotateY(var(--ry));transform-style:preserve-3d;
+  transition:transform .6s cubic-bezier(.2,.8,.2,1),box-shadow .4s,border-color .4s}
+.qr-card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;
+  background:radial-gradient(14rem circle at var(--mx) var(--my),rgba(240,214,140,.28),transparent 60%)}
+.hero .qr:hover .qr-card,.hero .qr:focus-visible .qr-card{border-color:#F0D68C;transition:transform .12s ease-out,box-shadow .4s,border-color .4s;
+  box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(240,214,140,.4),0 0 40px rgba(226,194,106,.25)}
+.hero .qr:hover .qr-card::after{opacity:1}
+
+/* Cadre à bordure dorée tournante */
+.qr-frame{position:relative;display:block;padding:3px;border-radius:1rem;overflow:hidden;isolation:isolate;transform:translateZ(26px)}
+.qr-frame::before{content:"";position:absolute;inset:-50%;z-index:-1;
+  background:conic-gradient(from 0deg,#B8902A,#F0D68C 12%,#7A5C0E 25%,#F0D68C 40%,#B8902A 55%,#14181F 68%,#F0D68C 85%,#B8902A);
+  animation:qr-spin 5s linear infinite}
+.qr-plate{position:relative;display:block;padding:.55rem;border-radius:calc(1rem - 3px);background:#FFFFFF;overflow:hidden}
+.qr-plate img{display:block;width:100%;height:auto;border-radius:.35rem}
+
+/* Laser de scan (mode multiply : le QR reste lisible) */
+.qr-scan{position:absolute;left:0;right:0;top:0;height:25%;pointer-events:none;mix-blend-mode:multiply;
+  background:linear-gradient(180deg,transparent 0%,rgba(240,214,140,.15) 45%,rgba(226,194,106,.6) 100%);
+  animation:qr-scan 3.4s cubic-bezier(.45,0,.55,1) infinite}
+.qr-scan::after{content:"";position:absolute;left:4%;right:4%;bottom:0;height:2px;border-radius:2px;background:#B8902A;
+  box-shadow:0 0 10px 2px rgba(226,194,106,.9)}
+
+/* Coins de viseur */
+.qr-corner{position:absolute;width:1.15rem;height:1.15rem;border:3px solid #B8902A;pointer-events:none;
+  animation:qr-corner 2.4s ease-in-out infinite}
+.qr-corner.tl{top:.28rem;left:.28rem;border-right:0;border-bottom:0;border-radius:.45rem 0 0 0;--dx:.18rem;--dy:.18rem}
+.qr-corner.tr{top:.28rem;right:.28rem;border-left:0;border-bottom:0;border-radius:0 .45rem 0 0;--dx:-.18rem;--dy:.18rem}
+.qr-corner.bl{bottom:.28rem;left:.28rem;border-right:0;border-top:0;border-radius:0 0 0 .45rem;--dx:.18rem;--dy:-.18rem}
+.qr-corner.br{bottom:.28rem;right:.28rem;border-left:0;border-top:0;border-radius:0 0 .45rem 0;--dx:-.18rem;--dy:-.18rem}
+
+/* Reflet lumineux (automatique et au survol) */
+.qr-shine{position:absolute;inset:0;pointer-events:none;transform:translateX(-130%);
+  background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);
+  animation:qr-shine 7s ease-in-out 2s infinite}
+.hero .qr:hover .qr-shine{animation:qr-shine-hover 1s ease forwards}
+
+/* Étincelles scintillantes */
+.qr-star{position:absolute;z-index:2;width:.9rem;height:.9rem;pointer-events:none;color:#F0D68C;
+  filter:drop-shadow(0 0 6px rgba(240,214,140,.9));animation:qr-twinkle 3s ease-in-out infinite}
+.qr-star svg{width:100%;height:100%;display:block}
+.qr-star.s1{top:-.4rem;left:-.4rem}
+.qr-star.s2{top:28%;right:-.55rem;width:.65rem;height:.65rem;animation-delay:.8s}
+.qr-star.s3{bottom:22%;left:-.6rem;width:.7rem;height:.7rem;animation-delay:1.6s}
+.qr-star.s4{bottom:-.45rem;right:12%;animation-delay:2.3s}
+
+/* Légende */
+.qr-caption{display:grid;gap:.15rem;text-align:center;transform:translateZ(14px)}
+.qr-kicker{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.qr-title{font-family:var(--display);font-weight:700;font-size:1.22rem;line-height:1.2;
+  background:linear-gradient(90deg,var(--ink) 0 38%,var(--gold-hi) 50%,var(--ink) 62% 100%);background-size:250% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:qr-text 5s linear infinite}
+.qr-hint{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;font-size:.82rem;color:var(--muted)}
+.qr-hint svg{width:1rem;height:1rem;color:var(--gold);animation:qr-blink 2s ease-in-out infinite}
+
+@keyframes qr-in{from{opacity:0;scale:.85;filter:blur(8px)}to{opacity:1;scale:1;filter:none}}
+@keyframes qr-float{0%,100%{translate:0 0}50%{translate:0 -.55rem}}
+@keyframes qr-pulse{0%,100%{opacity:.55;scale:.95}50%{opacity:1;scale:1.06}}
+@keyframes qr-spin{to{transform:rotate(1turn)}}
+@keyframes qr-scan{0%{transform:translateY(-100%);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translateY(400%);opacity:0}}
+@keyframes qr-corner{0%,100%{translate:0 0;border-color:#B8902A}50%{translate:var(--dx) var(--dy);border-color:#E2C26A}}
+@keyframes qr-shine{0%{transform:translateX(-130%)}12%,100%{transform:translateX(130%)}}
+@keyframes qr-shine-hover{from{transform:translateX(-130%)}to{transform:translateX(130%)}}
+@keyframes qr-twinkle{0%,100%{opacity:0;scale:.3;rotate:0deg}45%,55%{opacity:1;scale:1;rotate:90deg}}
+@keyframes qr-text{from{background-position:100% 0}to{background-position:-150% 0}}
+@keyframes qr-blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+@media (prefers-reduced-motion:reduce){
+  .hero .qr,.hero .qr *,.hero .qr *::before,.hero .qr *::after{animation:none!important}
+  .qr-scan,.qr-star{display:none}
+  .qr-card{transform:none!important}
+}
+</style>
+</head>
+<body>
+<!-- ===== AJOUT : intro « waouh » à l'ouverture (placée juste après <body>) ===== -->
+<script>
+/* Applique tout de suite le thème et la taille mémorisés (pas de flash)
+   et active l'intro, sauf si l'utilisateur a demandé moins d'animations. */
+(function(){
+  var r=document.documentElement;
+  try{
+    var t=localStorage.getItem('fs-theme');
+    if(t==='light'||t==='dark'){r.setAttribute('data-theme',t);}
+    var s=parseFloat(localStorage.getItem('fs-scale'));
+    if([.875,1,1.125,1.25,1.375,1.5,1.75].indexOf(s)>-1){r.style.setProperty('--scale',s);}
+  }catch(e){}
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){r.classList.add('wow');}
+})();
+</script>
+<style>
+  /* Couleurs des effets — clair par défaut, sombre selon le système ou le bouton */
+  :root{
+    --wow-hi:#C9A24B;--wow-glow:rgba(184,144,42,.35);--wow-ring:rgba(184,144,42,.16);
+    --wow-spot:rgba(184,144,42,.10);--wow-card-spot:rgba(184,144,42,.12);
+    --wow-card-sh:0 18px 40px rgba(91,70,17,.14),0 0 0 1px rgba(184,144,42,.3),0 0 28px rgba(184,144,42,.12);
+    --wow-au1:rgba(226,194,106,.30);--wow-au2:rgba(184,144,42,.14);--wow-au3:rgba(255,226,170,.45);
+    --wow-intro-glow:rgba(184,144,42,.22);--wow-dust:150,115,30;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --wow-hi:#FFF3C8;--wow-glow:rgba(226,194,106,.35);--wow-ring:rgba(226,194,106,.14);
+    --wow-spot:rgba(226,194,106,.07);--wow-card-spot:rgba(226,194,106,.10);
+    --wow-card-sh:0 18px 40px rgba(0,0,0,.45),0 0 0 1px rgba(226,194,106,.18),0 0 30px rgba(226,194,106,.08);
+    --wow-au1:rgba(226,194,106,.16);--wow-au2:rgba(138,107,36,.22);--wow-au3:rgba(72,96,150,.14);
+    --wow-intro-glow:rgba(226,194,106,.22);--wow-dust:226,194,106}}
+  :root[data-theme="dark"]{
+    --wow-hi:#FFF3C8;--wow-glow:rgba(226,194,106,.35);--wow-ring:rgba(226,194,106,.14);
+    --wow-spot:rgba(226,194,106,.07);--wow-card-spot:rgba(226,194,106,.10);
+    --wow-card-sh:0 18px 40px rgba(0,0,0,.45),0 0 0 1px rgba(226,194,106,.18),0 0 30px rgba(226,194,106,.08);
+    --wow-au1:rgba(226,194,106,.16);--wow-au2:rgba(138,107,36,.22);--wow-au3:rgba(72,96,150,.14);
+    --wow-intro-glow:rgba(226,194,106,.22);--wow-dust:226,194,106}
+
+  /* Rideau d'ouverture : n'existe que si l'intro est active */
+  .wow-intro{display:none}
+  html.wow .wow-intro{display:block;position:fixed;inset:0;z-index:9999;cursor:pointer;
+    animation:wow-intro-off 0s linear 2.75s forwards}
+  html.wow.wow-skip .wow-intro{display:none}
+  .wow-half{position:absolute;left:0;right:0;height:50.5%;background:var(--bg)}
+  .wow-half--top{top:0;background:radial-gradient(120% 90% at 50% 100%,var(--wow-intro-glow),transparent 60%),var(--bg);
+    animation:wow-open-up .85s cubic-bezier(.77,0,.18,1) 1.85s forwards}
+  .wow-half--bot{bottom:0;background:radial-gradient(120% 90% at 50% 0%,var(--wow-intro-glow),transparent 60%),var(--bg);
+    animation:wow-open-down .85s cubic-bezier(.77,0,.18,1) 1.85s forwards}
+  .wow-seam{position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;transform:scaleX(0);
+    background:linear-gradient(90deg,transparent,var(--gold-hi),var(--wow-hi),var(--gold-hi),transparent);
+    box-shadow:0 0 18px 2px var(--wow-glow);animation:wow-seam 1s cubic-bezier(.2,.8,.2,1) 1.5s forwards}
+  .wow-stage{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:14px;padding:24px;text-align:center;animation:wow-stage-out .45s ease 1.6s forwards}
+  .wow-emblem{position:relative;width:150px;height:150px;display:grid;place-items:center}
+  .wow-emblem::before{content:"";position:absolute;inset:-30%;border-radius:50%;
+    background:radial-gradient(closest-side,var(--wow-glow),transparent 72%);animation:wow-halo 1.6s ease-in-out .3s both}
+  .wow-ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
+  .wow-ring circle{fill:none;stroke-linecap:round}
+  .wow-ring .c1{stroke:var(--gold-hi);stroke-width:2.5;stroke-dasharray:654;stroke-dashoffset:654;animation:wow-dash 1.1s cubic-bezier(.6,0,.2,1) .1s forwards}
+  .wow-ring .c2{stroke:var(--gold);stroke-width:1.2;stroke-dasharray:578;stroke-dashoffset:-578;animation:wow-dash 1.2s cubic-bezier(.6,0,.2,1) .25s forwards}
+  .wow-doc{position:relative;width:62px;height:auto;opacity:0;animation:wow-doc .7s cubic-bezier(.2,1.4,.3,1) .55s forwards}
+  .wow-kick{margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--gold);opacity:0;animation:wow-fade .6s ease .5s forwards}
+  .wow-title{margin:0;font-family:var(--display);font-weight:700;font-size:clamp(30px,6vw,58px);
+    line-height:1.1;color:var(--ink);display:flex;flex-wrap:wrap;justify-content:center;perspective:600px}
+  .wow-title span{display:inline-block;opacity:0;transform:translateY(60%) rotateX(-70deg);transform-origin:50% 100%;
+    animation:wow-letter .7s cubic-bezier(.2,.8,.2,1) calc(.6s + var(--i) * .035s) forwards}
+  .wow-title .g{background:linear-gradient(100deg,var(--gold),var(--wow-hi),var(--gold));
+    -webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic}
+  .wow-line{display:block;width:min(320px,70vw);height:1px;transform:scaleX(0);
+    background:linear-gradient(90deg,transparent,var(--gold-hi),transparent);animation:wow-line .7s cubic-bezier(.2,.8,.2,1) 1.1s forwards}
+  .wow-sub{margin:0;font-family:var(--body);font-size:15px;color:var(--muted);opacity:0;animation:wow-fade .5s ease 1.2s forwards}
+  .wow-skiphint{position:absolute;left:0;right:0;bottom:22px;margin:0;text-align:center;font-family:var(--mono);
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);opacity:0;animation:wow-fade .5s ease .9s forwards,wow-stage-out .3s ease 1.6s forwards}
+
+  @keyframes wow-intro-off{to{visibility:hidden;pointer-events:none}}
+  @keyframes wow-open-up{to{transform:translateY(-101%)}}
+  @keyframes wow-open-down{to{transform:translateY(101%)}}
+  @keyframes wow-seam{0%{transform:scaleX(0);opacity:1}40%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+  @keyframes wow-stage-out{to{opacity:0;transform:scale(1.08);filter:blur(6px)}}
+  @keyframes wow-halo{0%{opacity:0;transform:scale(.4)}60%{opacity:1;transform:scale(1.1)}100%{opacity:.75;transform:scale(1)}}
+  @keyframes wow-dash{to{stroke-dashoffset:0}}
+  @keyframes wow-doc{from{opacity:0;transform:scale(.3) rotate(-25deg)}to{opacity:1;transform:none}}
+  @keyframes wow-fade{to{opacity:1}}
+  @keyframes wow-letter{to{opacity:1;transform:none}}
+  @keyframes wow-line{to{transform:scaleX(1)}}
+</style>
+<div class="wow-intro" id="wow-intro" aria-hidden="true">
+  <div class="wow-half wow-half--top"></div>
+  <div class="wow-half wow-half--bot"></div>
+  <div class="wow-stage">
+    <div class="wow-emblem">
+      <svg class="wow-ring" viewBox="0 0 220 220"><circle class="c1" cx="110" cy="110" r="104"/><circle class="c2" cx="110" cy="110" r="92"/></svg>
+      <svg class="wow-doc" viewBox="0 0 60 74" fill="none">
+        <rect x="3" y="3" width="54" height="68" rx="6" stroke="var(--gold-hi)" stroke-width="3"/>
+        <path d="M3 9a6 6 0 0 1 6-6h42a6 6 0 0 1 6 6v6H3z" fill="var(--gold-hi)"/>
+        <path d="M14 28h32M14 37h32M14 46h20" stroke="var(--gold)" stroke-width="3" stroke-linecap="round"/>
+        <path d="M17 58l6 6 14-15" stroke="var(--gold-hi)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <p class="wow-kick">Médiation numérique · Méthode en 14 étapes</p>
+    <p class="wow-title"><span style="--i:0">F</span><span style="--i:1">i</span><span style="--i:2">c</span><span style="--i:3">h</span><span style="--i:4">e</span><span style="--i:5">&nbsp;</span><span class="g" style="--i:6">d</span><span class="g" style="--i:7">e</span><span class="g" style="--i:8">&nbsp;</span><span class="g" style="--i:9">s</span><span class="g" style="--i:10">é</span><span class="g" style="--i:11">a</span><span class="g" style="--i:12">n</span><span class="g" style="--i:13">c</span><span class="g" style="--i:14">e</span></p>
+    <span class="wow-line"></span>
+    <p class="wow-sub">Rédiger une fiche complète, sur n'importe quel thème</p>
+  </div>
+  <span class="wow-seam"></span>
+  <p class="wow-skiphint">Cliquez pour passer</p>
+</div>
+<!-- ===== FIN AJOUT intro ===== -->
+
+
+
+<a class="skip" href="#contenu">Aller au contenu</a>
+<div class="progress" aria-hidden="true"><span id="prog"></span></div>
+<div class="arrival" id="arrival" aria-hidden="true"></div>
+
+<header class="bar gutter">
+  <div class="wrap">
+    <a class="brand" href="#haut"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="2.5" width="18" height="19" rx="2.5" fill="none" stroke="#E2C26A" stroke-width="1.8"/><path d="M7 8h10M7 12h10M7 16h6" stroke="#F5EEDC" stroke-width="1.8" stroke-linecap="round"/></svg><span>Fiche <b>de séance</b></span></a>
+    <div class="clock" role="timer" aria-label="Heure actuelle">
+      <time class="t" id="clock-t" datetime=""><span id="hm">--:--</span>:<span class="sec"><i id="ss">--</i></span></time>
+      <span class="d" id="clock-d">&nbsp;</span>
+    </div>
+    <div class="tools" role="group" aria-label="Affichage">
+      <button class="tbtn" id="zoom-out" type="button" aria-label="A− réduire la taille du texte"><span>A−</span></button>
+      <output class="zoom-val" id="zoom-val" aria-live="polite">100 %</output>
+      <button class="tbtn" id="zoom-in" type="button" aria-label="A+ agrandir la taille du texte"><span>A+</span></button>
+      <button class="tbtn" id="zoom-reset" type="button" aria-label="Taille du texte par défaut"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="tbtn" id="theme" type="button" aria-label="Basculer entre mode clair et mode sombre"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero gutter" id="haut" aria-labelledby="titre">
+  <div class="wrap">
+    <p class="eyebrow">Médiation numérique · Méthode en 14 étapes</p>
+    <h1 id="titre">Rédiger une fiche de séance <em>sur n'importe quel thème</em></h1>
+    <p class="lede">La même structure en douze rubriques convient à un atelier contre les SMS d'arnaque, à une initiation Arduino Uno R3 ou à la prise en main d'une boîte mail. Suivez les étapes dans l'ordre : chacune donne la règle, les pièges à éviter et un exemple concret.</p>
+    <ul class="chips" aria-label="Exemples de thèmes couverts">
+      <li>Cybersécurité</li><li>Arduino Uno R3</li><li>Boîte mail</li><li>Démarches en ligne</li><li>Et tout autre thème</li>
+    </ul>
+
+        <a class="qr" href="https://ko-fi.com/ondeaweb" target="_blank" rel="noopener" aria-label="Soutenir Ondea Web sur Ko-fi (s'ouvre dans un nouvel onglet). QR code à scanner avec votre téléphone.">
+      <span class="qr-halo" aria-hidden="true"></span>
+      <span class="qr-card" id="qr-card">
+        <span class="qr-star s1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z" fill="currentColor"/></svg></span>
+        <span class="qr-star s2" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z" fill="currentColor"/></svg></span>
+        <span class="qr-star s3" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z" fill="currentColor"/></svg></span>
+        <span class="qr-star s4" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z" fill="currentColor"/></svg></span>
+        <span class="qr-frame">
+          <span class="qr-plate">
+            <img src="qrcode.png" alt="" width="820" height="820" decoding="async">
+            <span class="qr-scan" aria-hidden="true"></span>
+            <span class="qr-corner tl" aria-hidden="true"></span>
+            <span class="qr-corner tr" aria-hidden="true"></span>
+            <span class="qr-corner bl" aria-hidden="true"></span>
+            <span class="qr-corner br" aria-hidden="true"></span>
+            <span class="qr-shine" aria-hidden="true"></span>
+          </span>
+        </span>
+        <span class="qr-caption">
+          <span class="qr-kicker">Soutenir votre formateur</span>
+          <span class="qr-title">Offrez-moi un café</span>
+          <span class="qr-hint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M4 12h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Scannez ou cliquez</span>
+        </span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<div class="gutter">
+<div class="wrap layout guide show-cyber" id="guide">
+  <nav class="toc" aria-label="Étapes du guide">
+    <details id="toc-d" open>
+      <summary>Sommaire</summary>
+      <ol id="toc">
+        <li><a href="#e0"><span class="n">00</span>Cerner la demande</a></li>
+        <li><a href="#e1"><span class="n">01</span>Cadre de référence</a></li>
+        <li><a href="#e2"><span class="n">02</span>Informations générales</a></li>
+        <li><a href="#e3"><span class="n">03</span>Objectifs pédagogiques</a></li>
+        <li><a href="#e4"><span class="n">04</span>Matériel et supports</a></li>
+        <li><a href="#e5"><span class="n">05</span>Modalités et méthodes</a></li>
+        <li><a href="#e6"><span class="n">06</span>Déroulé détaillé</a></li>
+        <li><a href="#e7"><span class="n">07</span>Évaluation des acquis</a></li>
+        <li><a href="#e8"><span class="n">08</span>Document remis</a></li>
+        <li><a href="#e9"><span class="n">09</span>Accessibilité et handicap</a></li>
+        <li><a href="#e10"><span class="n">10</span>Posture et limites</a></li>
+        <li><a href="#e11"><span class="n">11</span>Ressources officielles</a></li>
+        <li><a href="#e12"><span class="n">12</span>Bilan de la séance</a></li>
+        <li><a href="#e13"><span class="n">13</span>Relire et mettre en page</a></li>
+      </ol>
+    </details>
+  </nav>
+
+  <main id="contenu" tabindex="-1">
+    <fieldset class="picker">
+      <legend>Choisir l'exemple fil rouge</legend>
+      <p>Les encadrés « Exemple » de chaque étape s'adaptent au thème choisi. <br> La méthode, elle, ne change pas.</p>
+      <div class="seg">
+        <input type="radio" name="ex" id="ex-cyber" value="cyber" checked><label for="ex-cyber">SMS d'arnaque · 60 min</label>
+        <input type="radio" name="ex" id="ex-arduino" value="arduino"><label for="ex-arduino">Arduino Uno R3 · 90 min</label>
+        <input type="radio" name="ex" id="ex-mail" value="mail"><label for="ex-mail">Boîte mail · 90 min</label>
+      </div>
+    </fieldset>
+
+    <div class="phase"><h2>Préparer</h2><span class="tag">Avant d'écrire</span></div>
+
+    <section class="step" id="e0" aria-labelledby="h-e0">
+      <div class="num" aria-hidden="true">0</div>
+      <div class="step-body">
+        <h3 id="h-e0"><small>Étape 00</small>Cerner la demande</h3>
+        <p>Une fiche réussie répond à un besoin réel. <br> Avant la première ligne, notez en une phrase ce que le public doit savoir faire <br> en repartant, et pour qui.</p>
+        <div class="grid2">
+          <div class="card"><h4>Les cinq questions</h4>
+            <ul><li>Qui vient, avec quel niveau ?</li><li>Quel problème concret rencontre ce public ?</li><li>Combien de temps et combien de personnes ?</li><li>Dans quel lieu, avec quel équipement ?</li><li>Quelle compétence référentiel est mobilisée ?</li></ul></div>
+          <div class="card"><h4>La phrase repère</h4>
+            <p>« À la fin, <em>[public]</em> saura <em>[action concrète]</em> pour <em>[bénéfice au quotidien]</em>. »</p>
+            <p style="margin-top:.5rem;color:var(--muted);font-size:.95rem">Gardez-la sous les yeux : chaque rubrique doit la servir.</p></div>
+        </div>
+        <div class="example ex ex--cyber"><span class="label">Exemple · SMS d'arnaque</span><p>À la fin, des seniors débutants sauront reconnaître un SMS frauduleux <br> pour ne plus cliquer sur un lien piégé.</p></div>
+        <div class="example ex ex--arduino"><span class="label">Exemple · Arduino Uno R3</span><p>À la fin, des débutants curieux sauront brancher et programmer une LED sur une carte Arduino Uno R3 pour comprendre comment un objet électronique obéit à un programme.</p></div>
+        <div class="example ex ex--mail"><span class="label">Exemple · Boîte mail</span><p>À la fin, des adultes débutants sauront envoyer un courriel avec une pièce jointe pour transmettre seuls un justificatif à une administration ou à un employeur.</p></div>
+      </div>
+    </section>
+
+    <div class="phase"><h2>Rédiger les 12 rubriques</h2><span class="tag">Dans l'ordre de la fiche</span></div>
+
+    <section class="step" id="e1" aria-labelledby="h-e1">
+      <div class="num" aria-hidden="true">1</div>
+      <div class="step-body">
+        <h3 id="h-e1"><small>Rubrique 1</small>Cadre de référence</h3>
+        <p>Trois lignes rattachent la séance à la certification : le titre visé avec son numéro RNCP et son niveau, la compétence visée et l'activité menée.</p>
+        <div class="tip"><strong>Règle d'or :</strong> recopiez l'intitulé de la compétence mot pour mot depuis le référentiel de votre titre. Un jury repère tout de suite une compétence reformulée ou inventée.</div>
+        <div class="example ex ex--cyber"><span class="label">Exemple · SMS d'arnaque</span><p><strong>Certification :</strong> Titre professionnel Médiateur Numérique — RNCP 40695 (niveau 5)<br><strong>Compétence visée :</strong> Sécuriser les pratiques numériques des publics<br><strong>Activité :</strong> Concevoir et animer une activité de sensibilisation et de prévention des risques numériques</p></div>
+        <div class="example ex ex--arduino"><span class="label">Exemple · Arduino Uno R3</span><p><strong>Certification :</strong> le titre que vous préparez, avec son numéro RNCP et son niveau<br><strong>Compétence visée :</strong> la compétence du référentiel liée à l'animation d'ateliers de découverte et de fabrication numérique, copiée telle quelle<br><strong>Activité :</strong> Concevoir et animer un atelier d'initiation à l'électronique programmable</p></div>
+        <div class="example ex ex--mail"><span class="label">Exemple · Boîte mail</span><p><strong>Certification :</strong> le titre que vous préparez, avec son numéro RNCP et son niveau<br><strong>Compétence visée :</strong> la compétence du référentiel liée à l'accompagnement des publics dans leurs usages numériques du quotidien, copiée telle quelle<br><strong>Activité :</strong> Concevoir et animer un atelier de prise en main de la messagerie électronique</p></div>
+      </div>
+    </section>
+
+    <section class="step" id="e2" aria-labelledby="h-e2">
+      <div class="num" aria-hidden="true">2</div>
+      <div class="step-body">
+        <h3 id="h-e2"><small>Rubrique 2</small>Informations générales</h3>
+        <p>Six champs courts que le lecteur doit trouver en un coup d'œil : public visé, effectif, durée, lieu et contexte, prérequis, intervenant·e.</p>
+        <ul>
+          <li><strong>Public :</strong> âge, situation et niveau numérique, sans jugement <br> (« grands débutants », « peu à l'aise avec le clavier »).</li>
+          <li><strong>Effectif :</strong> une fourchette réaliste, en général 5 à 8 personnes pour un atelier accompagné.</li>
+          <li><strong>Prérequis :</strong> le minimum réel. « Aucun » est une réponse valable et rassurante.</li>
+        </ul>
+        <div class="example ex ex--cyber"><span class="label">Exemple · SMS d'arnaque</span><p>Seniors (65–80 ans), grands débutants, en résidence autonomie · 6 à 8 participants · 1 heure · salle commune, atelier collectif · Aucun prérequis : savoir tenir son téléphone suffit.</p></div>
+        <div class="example ex ex--arduino"><span class="label">Exemple · Arduino Uno R3</span><p>Adolescents et adultes curieux, sans connaissance en électronique · 6 à 8 participants · 1 h 30 · médiathèque ou fablab, un kit pour deux · Prérequis : savoir utiliser une souris et un clavier.</p></div>
+        <div class="example ex ex--mail"><span class="label">Exemple · Boîte mail</span><p>Adultes débutants (25–70 ans) disposant déjà d'une adresse mail · 5 à 8 participants · 1 h 30 · espace numérique, un poste par personne · Prérequis : savoir utiliser une souris.</p></div>
+      </div>
+    </section>
+
+    <section class="step" id="e3" aria-labelledby="h-e3">
+      <div class="num" aria-hidden="true">3</div>
+      <div class="step-body">
+        <h3 id="h-e3"><small>Rubrique 3</small>Objectifs pédagogiques</h3>
+        <p>Un objectif général, puis trois ou quatre objectifs opérationnels introduits par <br> « à la fin de la séance, chaque participant est capable de : ».</p>
+        <div class="grid2">
+          <div class="card"><h4>Verbes observables</h4><ul class="verbs" aria-label="Verbes à privilégier"><li>citer</li><li>repérer</li><li>distinguer</li><li>créer</li><li>brancher</li><li>envoyer</li><li>vérifier</li><li>expliquer</li><li>appliquer</li></ul></div>
+          <div class="card"><h4>Verbes à éviter</h4><ul class="verbs bad" aria-label="Verbes à éviter"><li>connaître</li><li>comprendre</li><li>savoir</li><li>découvrir</li><li>être sensibilisé</li></ul><p style="margin-top:.5rem;color:var(--muted);font-size:.92rem">On ne peut pas les observer pendant la séance.</p></div>
+        </div>
+        <div class="tip"><strong>Test simple :</strong> pour chaque objectif opérationnel, demandez-vous <br> « comment vais-je le voir ? ». La réponse doit apparaître à la rubrique 7.</div>
+        <div class="example ex ex--cyber"><span class="label">Exemple · SMS d'arnaque</span><p><strong>Général :</strong> sensibiliser des seniors débutants à la reconnaissance des SMS frauduleux.</p><ul><li>Citer au moins 2 signaux d'alerte d'un SMS frauduleux.</li><li>Distinguer un SMS légitime d'un SMS piégé sur des exemples réels.</li><li>Énoncer le bon réflexe : ne pas cliquer, vérifier sur le site officiel.</li></ul></div>
+        <div class="example ex ex--arduino"><span class="label">Exemple · Arduino Uno R3</span><p><strong>Général :</strong> faire découvrir le principe d'un microcontrôleur en réalisant un premier montage programmé.</p><ul><li>Identifier sur la carte Uno R3 le port USB, les broches numériques et la broche GND ;</li><li>Brancher une LED avec sa résistance sur une plaque d'essai ;</li><li>Téléverser le programme « Blink » depuis l'IDE Arduino ;</li><li>Modifier la durée de clignotement et constater l'effet.</li></ul></div>
+        <div class="example ex ex--mail"><span class="label">Exemple · Boîte mail</span><p><strong>Général :</strong> rendre les participants autonomes pour envoyer un courriel complet depuis leur messagerie.</p><ul><li>Repérer les zones Destinataire, Objet et Message ;</li><li>Rédiger un courriel avec un objet clair et une formule de politesse ;</li><li>Joindre un fichier et vérifier qu'il est bien attaché avant l'envoi ;</li><li>Retrouver le message dans le dossier « Envoyés ».</li></ul></div>
+      </div>
+    </section>
+
+    <section class="step" id="e4" aria-labelledby="h-e4">
+      <div class="num" aria-hidden="true">4</div>
+      <div class="step-body">
+        <h3 id="h-e4"><small>Rubrique 4</small>Matériel et supports</h3>
+        <p>Listez tout ce qui doit être prêt avant l'arrivée du public : équipement, supports projetés, documents imprimés et mémo à emporter. <br> Indiquez la quantité (« un par participant », « un jeu par binôme »).</p>
+        <div class="example ex ex--cyber"><span class="label">Exemple · SMS d'arnaque</span><ul><li>Vidéoprojecteur et diaporama en gros caractères (captures de SMS réels).</li><li>Jeu de cartes A5 : SMS légitimes et frauduleux mélangés, un jeu par binôme.</li><li>Paperboard et feutres.</li><li>Mémo A5 « Mes 3 réflexes », un par participant.</li></ul></div>
+        <div class="example ex ex--arduino"><span class="label">Exemple · Arduino Uno R3</span><ul><li>Une carte Arduino Uno R3 et son câble USB A-B par binôme ;</li><li>Plaque d'essai, LED, résistances 220 Ω et fils de connexion ;</li><li>Ordinateurs avec l'IDE Arduino installé et testé la veille ;</li><li>Schéma de câblage imprimé en couleur, mémo A5 par participant.</li></ul></div>
+        <div class="example ex ex--mail"><span class="label">Exemple · Boîte mail</span><ul><li>Un poste par participant et un vidéoprojecteur ;</li><li>Adresses mail d'entraînement pour s'envoyer des messages entre participants ;</li><li>Un fichier d'exemple sans donnée personnelle à joindre (image ou PDF) ;</li><li>Mémo A5 « Mon premier courriel », un par participant.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="step" id="e5" aria-labelledby="h-e5">
+      <div class="num" aria-hidden="true">5</div>
+      <div class="step-body">
+        <h3 id="h-e5"><small>Rubrique 5</small>Modalités et méthodes pédagogiques</h3>
+        <p>Dites comment on apprend : méthode active ou démonstrative, alternance collectif / binômes / individuel, rôle du médiateur. Une à trois phrases suffisent.</p>
+        <div class="tip"><strong>Formule qui fonctionne :</strong> on part du vécu, on montre, on fait faire, <br> on met en commun. Le médiateur guide et valorise, sans faire à la place.</div>
+        <div class="example ex ex--cyber"><span class="label">Exemple · SMS d'arnaque</span><p>Méthode active et participative : on part du vécu, on manipule des cartes, on apprend en faisant. <br> Alternance de temps collectifs et de travail en binômes.</p></div>
+        <div class="example ex ex--arduino"><span class="label">Exemple · Arduino Uno R3</span><p>Démonstration courte puis pratique en binômes : l'un câble, l'autre vérifie sur le schéma, puis on inverse. Les erreurs de câblage deviennent des occasions d'apprendre.</p></div>
+        <div class="example ex ex--mail"><span class="label">Exemple · Boîte mail</span><p>Démonstration collective vidéoprojetée, puis pratique individuelle guidée : chacun envoie un courriel à un autre participant. Aucune donnée personnelle réelle n'est utilisée.</p></div>
+      </div>
+    </section>
+
+    <section class="step" id="e6" aria-labelledby="h-e6">
+      <div class="num" aria-hidden="true">6</div>
+      <div class="step-body">
+        <h3 id="h-e6"><small>Rubrique 6</small>Déroulé détaillé de la séance</h3>
+        <p>C'est le cœur de la fiche. Un tableau à quatre colonnes : <br> <strong>Étape</strong>, <strong>Durée</strong>, <strong>Déroulé et activités</strong>, <strong>Supports</strong>. <br> Dans la troisième colonne, séparez toujours ce que fait le médiateur et ce que font les participants.</p>
+        <div class="tip"><strong>Vérification obligatoire :</strong> la somme des durées doit être égale à la durée annoncée en rubrique 2. Écrivez « Médiateur — » de la même façon sur chaque ligne.</div>
+        <div class="card calc">
+          <h4>Calculateur de déroulé</h4>
+          <div class="calc-row">
+            <div class="field"><label for="duree">Durée totale (minutes)</label><input id="duree" type="number" inputmode="numeric" min="30" max="240" step="15" value="90"></div>
+            <p class="count" id="calc-note">Répartition indicative, arrondie à 5 minutes.</p>
+          </div>
+          <div class="bars" id="calc-bars" aria-hidden="true"></div>
+          <div class="tscroll"><table aria-describedby="calc-note"><thead><tr><th scope="col">Phase</th><th scope="col">Durée</th><th scope="col">Ce qui s'y passe</th></tr></thead><tbody id="calc-body"></tbody><tfoot><tr><td>Total</td><td class="min" id="calc-total">90 min</td><td>Doit correspondre à la rubrique 2</td></tr></tfoot></table></div>
+        </div>
+        <div class="example ex ex--cyber"><span class="label">Exemple · SMS d'arnaque</span>
+          <div class="tscroll"><table><thead><tr><th scope="col">Étape</th><th scope="col">Durée</th><th scope="col">Déroulé</th><th scope="col">Supports</th></tr></thead><tbody>
+            <tr><td>Accueil et lancement</td><td class="min">10 min</td><td><strong>Médiateur —</strong> pose la question « Avez-vous déjà reçu un SMS bizarre ? ». <strong>Participants —</strong> partagent une expérience.</td><td>Paperboard</td></tr>
+            <tr><td>Découverte des signaux</td><td class="min">15 min</td><td><strong>Médiateur —</strong> projette 2 SMS frauduleux et nomme les 3 signaux. <strong>Participants —</strong> repèrent les indices.</td><td>Diaporama</td></tr>
+            <tr><td>Mise en pratique : le tri</td><td class="min">20 min</td><td><strong>Médiateur —</strong> distribue les cartes et relance. <strong>Participants —</strong> trient « piège / normal » en binômes.</td><td>Cartes SMS A5</td></tr>
+            <tr><td>Mise en commun</td><td class="min">10 min</td><td><strong>Médiateur —</strong> anime la correction. <strong>Participants —</strong> formulent les réflexes.</td><td>Paperboard</td></tr>
+            <tr><td>Évaluation et clôture</td><td class="min">5 min</td><td><strong>Médiateur —</strong> pose 3 questions, remet le mémo. <strong>Participants —</strong> répondent.</td><td>Mémo A5</td></tr>
+          </tbody><tfoot><tr><td>Total</td><td class="min">60 min</td><td colspan="2">= 1 heure annoncée</td></tr></tfoot></table></div></div>
+        <div class="example ex ex--arduino"><span class="label">Exemple · Arduino Uno R3</span>
+          <div class="tscroll"><table><thead><tr><th scope="col">Étape</th><th scope="col">Durée</th><th scope="col">Déroulé</th><th scope="col">Supports</th></tr></thead><tbody>
+            <tr><td>Accueil et représentations</td><td class="min">10 min</td><td><strong>Médiateur —</strong> demande « Quels objets autour de vous contiennent un programme ? ». <strong>Participants —</strong> citent des exemples.</td><td>Paperboard</td></tr>
+            <tr><td>Découvrir la carte</td><td class="min">15 min</td><td><strong>Médiateur —</strong> présente la Uno R3 : USB, broches, GND, LED intégrée. <strong>Participants —</strong> repèrent les éléments sur leur carte.</td><td>Cartes, diaporama</td></tr>
+            <tr><td>Premier montage</td><td class="min">20 min</td><td><strong>Médiateur —</strong> montre le câblage LED + résistance. <strong>Participants —</strong> câblent en binômes, carte débranchée.</td><td>Schéma, kits</td></tr>
+            <tr><td>Programmer « Blink »</td><td class="min">25 min</td><td><strong>Médiateur —</strong> ouvre l'exemple Blink et explique les lignes clés. <strong>Participants —</strong> téléversent et observent.</td><td>IDE Arduino</td></tr>
+            <tr><td>Défi : changer le rythme</td><td class="min">10 min</td><td><strong>Médiateur —</strong> lance le défi. <strong>Participants —</strong> modifient les durées et comparent.</td><td>Postes</td></tr>
+            <tr><td>Évaluation et clôture</td><td class="min">10 min</td><td><strong>Médiateur —</strong> quiz oral, remise du mémo. <strong>Participants —</strong> répondent, rangent le matériel.</td><td>Mémo A5</td></tr>
+          </tbody><tfoot><tr><td>Total</td><td class="min">90 min</td><td colspan="2">= 1 h 30 annoncée</td></tr></tfoot></table></div></div>
+        <div class="example ex ex--mail"><span class="label">Exemple · Boîte mail</span>
+          <div class="tscroll"><table><thead><tr><th scope="col">Étape</th><th scope="col">Durée</th><th scope="col">Déroulé</th><th scope="col">Supports</th></tr></thead><tbody>
+            <tr><td>Accueil et vécu</td><td class="min">10 min</td><td><strong>Médiateur —</strong> demande « À qui auriez-vous besoin d'écrire ? ». <strong>Participants —</strong> expriment leurs besoins.</td><td>Paperboard</td></tr>
+            <tr><td>Découvrir la messagerie</td><td class="min">15 min</td><td><strong>Médiateur —</strong> présente boîte de réception, Envoyés, Indésirables. <strong>Participants —</strong> retrouvent ces dossiers.</td><td>Vidéoprojecteur</td></tr>
+            <tr><td>Écrire un courriel</td><td class="min">20 min</td><td><strong>Médiateur —</strong> montre Destinataire, Objet, Message. <strong>Participants —</strong> écrivent à un voisin.</td><td>Postes</td></tr>
+            <tr><td>Joindre un fichier</td><td class="min">20 min</td><td><strong>Médiateur —</strong> montre le trombone et la vérification. <strong>Participants —</strong> envoient le fichier d'exemple.</td><td>Fichier d'exemple</td></tr>
+            <tr><td>Bons réflexes</td><td class="min">15 min</td><td><strong>Médiateur —</strong> explique Cc / Cci et les courriels douteux. <strong>Participants —</strong> trient des exemples.</td><td>Diaporama</td></tr>
+            <tr><td>Évaluation et clôture</td><td class="min">10 min</td><td><strong>Médiateur —</strong> quiz oral, remise du mémo. <strong>Participants —</strong> répondent.</td><td>Mémo A5</td></tr>
+          </tbody><tfoot><tr><td>Total</td><td class="min">90 min</td><td colspan="2">= 1 h 30 annoncée</td></tr></tfoot></table></div></div>
+      </div>
+    </section>
+
+    <section class="step" id="e7" aria-labelledby="h-e7">
+      <div class="num" aria-hidden="true">7</div>
+      <div class="step-body">
+        <h3 id="h-e7"><small>Rubrique 7</small>Évaluation des acquis</h3>
+        <p>Deux moments : <strong>en continu</strong>, une observation pendant la pratique <br> avec un critère de réussite chiffré <strong>en fin de séance</strong>, un quiz oral de trois questions, une par objectif clé.</p>
+        <div class="tip"><strong>Alignement :</strong> chaque question du quiz reprend un objectif opérationnel <br> de la rubrique 3. <br> Si un objectif n'est jamais évalué, retirez-le ou ajoutez une question.</div>
+        <div class="example ex ex--cyber"><span class="label">Exemple · SMS d'arnaque</span><p><strong>En continu —</strong> chaque binôme identifie correctement au moins 3 SMS sur 4.<br><strong>En fin de séance —</strong> citer 2 signaux, énoncer le bon réflexe, nommer un numéro utile.</p></div>
+        <div class="example ex ex--arduino"><span class="label">Exemple · Arduino Uno R3</span><p><strong>En continu —</strong> chaque binôme fait clignoter sa LED externe, puis change le rythme.<br><strong>En fin de séance —</strong> à quoi sert la résistance, où se branche le GND, quelle ligne règle la durée.</p></div>
+        <div class="example ex ex--mail"><span class="label">Exemple · Boîte mail</span><p><strong>En continu —</strong> chaque participant reçoit le courriel d'un voisin avec la pièce jointe et l'ouvre.<br><strong>En fin de séance —</strong> à quoi sert l'objet, comment joindre un fichier, différence entre Cc et Cci.</p></div>
+      </div>
+    </section>
+
+    <section class="step" id="e8" aria-labelledby="h-e8">
+      <div class="num" aria-hidden="true">8</div>
+      <div class="step-body">
+        <h3 id="h-e8"><small>Rubrique 8</small>Document remis aux participants</h3>
+        <p>Un mémo A5 en gros caractères, qui tient sur une seule page : <br> trois réflexes ou trois étapes maximum, une phrase « À retenir » et les contacts utiles.</p>
+        <div class="example ex ex--cyber"><span class="label">Exemple · SMS d'arnaque</span><p>« Mes 3 réflexes : je m'arrête, je vérifie, je ne clique pas » + 33700 pour signaler un SMS, cybermalveillance.gouv.fr.</p></div>
+        <div class="example ex ex--arduino"><span class="label">Exemple · Arduino Uno R3</span><p>« Mon premier montage » : le schéma LED + résistance, les 3 étapes (brancher, téléverser, observer) et l'adresse de la documentation officielle Arduino.</p></div>
+        <div class="example ex ex--mail"><span class="label">Exemple · Boîte mail</span><p>« Mon premier courriel » : destinataire, objet, message, trombone pour la pièce jointe, et le rappel « je relis avant d'envoyer ».</p></div>
+      </div>
+    </section>
+
+    <section class="step" id="e9" aria-labelledby="h-e9">
+      <div class="num" aria-hidden="true">9</div>
+      <div class="step-body">
+        <h3 id="h-e9"><small>Rubrique 9</small>Adaptation à l'accessibilité et au handicap</h3>
+        <p>Quatre adaptations concrètes, toujours vérifiables le jour J.</p>
+        <ul><li>Supports en gros caractères, fort contraste, langage sans jargon.</li><li>Rythme adapté et accompagnement individuel.</li><li>Une alternative pour qui ne lit pas ou maîtrise mal le clavier.</li><li>Vérification régulière que personne ne décroche, <br> boucle magnétique si disponible.</li></ul>
+        <div class="example ex ex--cyber"><span class="label">Exemple · SMS d'arnaque</span><p>Cartes imprimées en grand format pour les personnes qui voient mal l'écran du téléphone.</p></div>
+        <div class="example ex ex--arduino"><span class="label">Exemple · Arduino Uno R3</span><p>Fils étiquetés en plus de leur couleur, pour les personnes daltoniennes ; pinces pour saisir les petits composants.</p></div>
+        <div class="example ex ex--mail"><span class="label">Exemple · Boîte mail</span><p>Zoom du navigateur montré en début de séance ; souris adaptée ou pavé tactile au choix.</p></div>
+      </div>
+    </section>
+
+    <section class="step" id="e10" aria-labelledby="h-e10">
+      <div class="num" aria-hidden="true">10</div>
+      <div class="step-body">
+        <h3 id="h-e10"><small>Rubrique 10</small>Posture et limites du médiateur</h3>
+        <p>Écrivez ce que le médiateur ne fait jamais et vers qui il oriente quand la situation dépasse son rôle. <br> C'est une rubrique très regardée par le jury.</p>
+        <div class="example ex ex--cyber"><span class="label">Exemple · SMS d'arnaque</span><p>Ne se connecte jamais à la place des participants. Si une personne a été victime, il l'écoute sans juger et l'oriente vers sa banque, cybermalveillance.gouv.fr ou le dépôt de plainte.</p></div>
+        <div class="example ex ex--arduino"><span class="label">Exemple · Arduino Uno R3</span><p>Le montage reste alimenté uniquement par le port USB de l'ordinateur ; on câble toujours carte débranchée. Le médiateur laisse les participants câbler eux-mêmes, même lentement.</p></div>
+        <div class="example ex ex--mail"><span class="label">Exemple · Boîte mail</span><p>Ne demande, ne saisit et ne note jamais le mot de passe d'un participant. Pour une démarche administrative réelle, il oriente vers un conseiller habilité.</p></div>
+      </div>
+    </section>
+
+    <section class="step" id="e11" aria-labelledby="h-e11">
+      <div class="num" aria-hidden="true">11</div>
+      <div class="step-body">
+        <h3 id="h-e11"><small>Rubrique 11</small>Ressources et références officielles</h3>
+        <p>Trois ou quatre sources officielles, chacune avec une phrase qui dit à quoi elle sert. Privilégiez les sites publics ou les documentations des fabricants.</p>
+        <div class="example ex ex--cyber"><span class="label">Exemple · SMS d'arnaque</span><ul><li><a href="https://www.cybermalveillance.gouv.fr" rel="noopener" target="_blank">cybermalveillance.gouv.fr</a> — assistance aux victimes ;</li><li>33700 — signalement des SMS frauduleux ;</li><li><a href="https://www.service-public.fr" rel="noopener" target="_blank">service-public.fr</a> — démarches officielles.</li></ul></div>
+        <div class="example ex ex--arduino"><span class="label">Exemple · Arduino Uno R3</span><ul><li><a href="https://docs.arduino.cc" rel="noopener" target="_blank">docs.arduino.cc</a> — documentation officielle des cartes et de l'IDE ;</li><li>Exemple « Blink » — fourni dans l'IDE Arduino (menu Exemples).</li></ul></div>
+        <div class="example ex ex--mail"><span class="label">Exemple · Boîte mail</span><ul><li><a href="https://www.cybermalveillance.gouv.fr" rel="noopener" target="_blank">cybermalveillance.gouv.fr</a> — reconnaître un courriel d'hameçonnage ;</li><li><a href="https://www.cnil.fr" rel="noopener" target="_blank">cnil.fr</a> — protéger ses données et ses comptes.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="step" id="e12" aria-labelledby="h-e12">
+      <div class="num" aria-hidden="true">12</div>
+      <div class="step-body">
+        <h3 id="h-e12"><small>Rubrique 12</small>Bilan de la séance</h3>
+        <p>Trois lignes laissées vides, à remplir après l'animation : <br> points forts observés, difficultés rencontrées, ajustements pour la prochaine séance. C'est la preuve d'une pratique réflexive.</p>
+      </div>
+    </section>
+
+    <div class="phase"><h2>Finaliser</h2><span class="tag">Avant de rendre</span></div>
+
+    <section class="step" id="e13" aria-labelledby="h-e13">
+      <div class="num" aria-hidden="true">13</div>
+      <div class="step-body">
+        <h3 id="h-e13"><small>Étape 13</small>Relire et mettre en page</h3>
+        <p>Cochez chaque point. <br> Les cases cochées restent enregistrées dans votre navigateur.</p>
+        <ul class="check" id="checklist">
+          <li><input type="checkbox" id="c1"><label for="c1">La compétence est recopiée mot pour mot depuis le référentiel.</label></li>
+          <li><input type="checkbox" id="c2"><label for="c2">Chaque objectif opérationnel commence par un verbe observable.</label></li>
+          <li><input type="checkbox" id="c3"><label for="c3">La somme des durées du déroulé égale la durée annoncée.</label></li>
+          <li><input type="checkbox" id="c4"><label for="c4">Chaque objectif est évalué en rubrique 7.</label></li>
+          <li><input type="checkbox" id="c5"><label for="c5">Le matériel de la rubrique 4 apparaît dans la colonne Supports.</label></li>
+          <li><input type="checkbox" id="c6"><label for="c6">« Médiateur — » et « Participants — » sont écrits de la même façon partout.</label></li>
+          <li><input type="checkbox" id="c7"><label for="c7">Le mémo tient sur une seule page A5.</label></li>
+          <li><input type="checkbox" id="c8"><label for="c8">Relecture orthographique faite, à voix haute ou par un tiers.</label></li>
+        </ul>
+        <p class="count" id="check-count" aria-live="polite">0 point vérifié sur 8</p>
+        <div class="card model">
+          <h4>Modèle vierge à copier</h4>
+          <pre id="model">FICHE SÉANCE — [Titre de l'atelier]
+Titre professionnel [intitulé] • RNCP [numéro] • public [adulte / jeune]
+
+Candidat·e : …………  Structure : …………  Date : … / … / 20…  Session : …………
+
+1. Cadre de référence — Certification / Compétence visée / Activité
+2. Informations générales — Public / Effectif / Durée / Lieu / Prérequis / Intervenant·e
+3. Objectifs pédagogiques — Général + 3 à 4 opérationnels (verbes observables)
+4. Matériel et supports
+5. Modalités et méthodes pédagogiques
+6. Déroulé détaillé — Étape | Durée | Médiateur — / Participants — | Supports
+7. Évaluation des acquis — En continu (critère chiffré) + quiz final
+8. Document remis aux participants — Mémo A5
+9. Adaptation à l'accessibilité et au handicap
+10. Posture et limites du médiateur
+11. Ressources et références officielles
+12. Bilan de la séance — Points forts / Difficultés / Ajustements</pre>
+          <div style="display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;margin-top:.8rem">
+            <button class="btn" id="copy" type="button"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" fill="none" stroke="currentColor" stroke-width="2"/></svg>Copier le modèle</button>
+            <span class="copied" id="copy-msg" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</div>
+
+<footer class="gutter">
+  <div class="wrap"><p>Guide de la fiche de séance · Médiation numérique</p><p>Méthode valable pour tout thème d'atelier</p></div>
+</footer>
+
+<button class="totop" id="totop" type="button" aria-label="Revenir en haut de la page">
+  <svg class="ring" viewBox="0 0 68 68" aria-hidden="true"><defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0D68C"/><stop offset=".55" stop-color="#B8902A"/><stop offset="1" stop-color="#F0D68C"/></linearGradient></defs><circle class="track" cx="34" cy="34" r="31"/><circle class="val" id="ring" cx="34" cy="34" r="31" stroke-dasharray="194.78" stroke-dashoffset="194.78"/></svg>
+  <span class="core" aria-hidden="true"><svg class="arrow" viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+</button>
+<p class="sr" id="sr-msg" aria-live="polite"></p>
+
+<script>
+(function(){
+  "use strict";
+  var root=document.documentElement;
+  if(!root.lang) root.lang="fr";
+  var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* Horloge en temps réel, format français */
+  var fd=new Intl.DateTimeFormat("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  var hm=document.getElementById("hm"),ss=document.getElementById("ss"),cd=document.getElementById("clock-d"),ct=document.getElementById("clock-t");
+  function p2(n){return n<10?"0"+n:""+n}
+  function tick(){
+    var d=new Date(),s=p2(d.getSeconds());
+    hm.textContent=p2(d.getHours())+":"+p2(d.getMinutes());
+    if(ss.textContent!==s){ss.textContent=s;ss.className=ss.className==="ta"?"tb":"ta";}
+    var day=fd.format(d); if(cd.textContent!==day) cd.textContent=day;
+    ct.setAttribute("datetime",d.toISOString());
+    setTimeout(tick,1000-d.getMilliseconds()+5);
+  }
+  tick();
+
+  /* Taille du texte */
+  var steps=[.875,1,1.125,1.25,1.375,1.5,1.75],i=1;
+  var saved=parseFloat(store.get("fs-scale")); if(steps.indexOf(saved)>-1) i=steps.indexOf(saved);
+  var zin=document.getElementById("zoom-in"),zout=document.getElementById("zoom-out"),zval=document.getElementById("zoom-val");
+  function applyZoom(){root.style.setProperty("--scale",steps[i]);zval.textContent=Math.round(steps[i]*100)+" %";zin.disabled=i===steps.length-1;zout.disabled=i===0;store.set("fs-scale",steps[i]);}
+  zin.addEventListener("click",function(){if(i<steps.length-1){i++;applyZoom()}});
+  zout.addEventListener("click",function(){if(i>0){i--;applyZoom()}});
+  document.getElementById("zoom-reset").addEventListener("click",function(){i=1;applyZoom()});
+  applyZoom();
+
+  /* Thème clair / sombre */
+  var tb=document.getElementById("theme"),mq=window.matchMedia("(prefers-color-scheme: dark)");
+  function isDark(){var t=root.getAttribute("data-theme");return t?t==="dark":mq.matches}
+  function labelTheme(){tb.setAttribute("aria-label",isDark()?"Passer en mode clair":"Passer en mode sombre")}
+  var st=store.get("fs-theme"); if(st==="dark"||st==="light") root.setAttribute("data-theme",st);
+  labelTheme();
+  tb.addEventListener("click",function(){var n=isDark()?"light":"dark";root.setAttribute("data-theme",n);store.set("fs-theme",n);labelTheme();});
+  if(mq.addEventListener) mq.addEventListener("change",labelTheme);
+
+  /* Sommaire : replié sur petit écran, section active */
+  var tocD=document.getElementById("toc-d");
+  if(window.matchMedia("(max-width: 63.99rem)").matches) tocD.removeAttribute("open");
+  var links=[].slice.call(document.querySelectorAll("#toc a"));
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id)})}})},{rootMargin:"-30% 0px -60% 0px"});
+    document.querySelectorAll(".step").forEach(function(s){io.observe(s)});
+  }
+
+  /* Exemple fil rouge */
+  var guide=document.getElementById("guide");
+  document.querySelectorAll('input[name="ex"]').forEach(function(r){r.addEventListener("change",function(){guide.className=guide.className.replace(/show-\w+/,"show-"+r.value)});if(r.checked)guide.className=guide.className.replace(/show-\w+/,"show-"+r.value);});
+
+  /* Calculateur de déroulé */
+  var phases=[["Accueil et lancement",.12,"Question d'ouverture, climat de confiance"],["Découverte",.22,"Le médiateur montre, le groupe observe et nomme"],["Mise en pratique",.38,"Les participants font, le médiateur circule"],["Mise en commun",.16,"Correction collective, réflexes à retenir"],["Évaluation et clôture",.12,"Quiz oral, remise du mémo"]];
+  var colors=["var(--obsidian)","var(--gold)","var(--gold-hi)","var(--muted)","var(--line)"];
+  var dIn=document.getElementById("duree"),body=document.getElementById("calc-body"),bars=document.getElementById("calc-bars"),tot=document.getElementById("calc-total");
+  function calc(){
+    var T=parseInt(dIn.value,10); if(!(T>=30)) T=30; if(T>240) T=240;
+    var m=phases.map(function(p){return Math.max(5,Math.round(T*p[1]/5)*5)});
+    var diff=T-m.reduce(function(a,b){return a+b},0); m[2]+=diff;
+    body.innerHTML=""; bars.innerHTML="";
+    phases.forEach(function(p,k){
+      var tr=document.createElement("tr");
+      tr.innerHTML="<td></td><td class=\"min\"></td><td></td>";
+      tr.children[0].textContent=p[0]; tr.children[1].textContent=m[k]+" min"; tr.children[2].textContent=p[2];
+      body.appendChild(tr);
+      var b=document.createElement("span"); b.style.width=(m[k]/T*100)+"%"; b.style.background=colors[k]; bars.appendChild(b);
+    });
+    tot.textContent=T+" min";
+  }
+  dIn.addEventListener("input",calc); calc();
+
+  /* Copier le modèle */
+  var msg=document.getElementById("copy-msg"),pre=document.getElementById("model");
+  document.getElementById("copy").addEventListener("click",function(){
+    function sel(){var r=document.createRange();r.selectNodeContents(pre);var s=window.getSelection();s.removeAllRanges();s.addRange(r);msg.textContent="Texte sélectionné : faites Ctrl+C.";}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(pre.textContent).then(function(){msg.textContent="Modèle copié."},sel)}else sel();
+  });
+
+  /* Liste de relecture */
+  var boxes=[].slice.call(document.querySelectorAll("#checklist input")),cc=document.getElementById("check-count");
+  function count(){var n=boxes.filter(function(b){return b.checked}).length;cc.textContent=n+" point"+(n>1?"s":"")+" vérifié"+(n>1?"s":"")+" sur "+boxes.length;}
+  boxes.forEach(function(b){if(store.get("fs-"+b.id)==="1")b.checked=true;b.addEventListener("change",function(){store.set("fs-"+b.id,b.checked?"1":"0");count()})});
+  count();
+
+  /* Sons (Web Audio, créés au premier clic) */
+  var ac=null;
+  function ctx(){if(!ac){var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;ac=new C();}if(ac.state==="suspended")ac.resume();return ac;}
+  function soundStart(){
+    var a=ctx(); if(!a) return; var t=a.currentTime;
+    var o=a.createOscillator(),g=a.createGain();o.type="triangle";
+    o.frequency.setValueAtTime(260,t);o.frequency.exponentialRampToValueAtTime(1040,t+.38);
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.22,t+.04);g.gain.exponentialRampToValueAtTime(.0001,t+.45);
+    o.connect(g).connect(a.destination);o.start(t);o.stop(t+.5);
+    var len=Math.floor(a.sampleRate*.5),buf=a.createBuffer(1,len,a.sampleRate),d=buf.getChannelData(0);
+    for(var k=0;k<len;k++) d[k]=(Math.random()*2-1)*(1-k/len);
+    var n=a.createBufferSource(),f=a.createBiquadFilter(),ng=a.createGain();n.buffer=buf;f.type="bandpass";f.Q.value=1.2;
+    f.frequency.setValueAtTime(500,t);f.frequency.exponentialRampToValueAtTime(4000,t+.45);
+    ng.gain.setValueAtTime(.0001,t);ng.gain.exponentialRampToValueAtTime(.12,t+.06);ng.gain.exponentialRampToValueAtTime(.0001,t+.5);
+    n.connect(f).connect(ng).connect(a.destination);n.start(t);
+  }
+  function soundArrive(){
+    var a=ctx(); if(!a) return; var t=a.currentTime;
+    [[1046.5,0],[1568,.12],[2093,.24]].forEach(function(nt){
+      [1,2.76].forEach(function(h,j){
+        var o=a.createOscillator(),g=a.createGain();o.type="sine";o.frequency.value=nt[0]*h;
+        var s=t+nt[1],v=j?.04:.16;
+        g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(v,s+.015);g.gain.exponentialRampToValueAtTime(.0001,s+1.3);
+        o.connect(g).connect(a.destination);o.start(s);o.stop(s+1.35);
+      });
+    });
+  }
+
+  /* Progression + bouton retour en haut */
+  var btn=document.getElementById("totop"),ring=document.getElementById("ring"),prog=document.getElementById("prog"),arr=document.getElementById("arrival"),sr=document.getElementById("sr-msg");
+  var C=194.78,pending=false,raf=0;
+  function update(){
+    raf=0;
+    var y=window.scrollY||root.scrollTop,max=Math.max(1,root.scrollHeight-window.innerHeight),r=Math.min(1,y/max);
+    prog.style.transform="scaleX("+r+")"; ring.style.strokeDashoffset=(C*(1-r)).toFixed(2);
+    btn.classList.toggle("show",y>400||pending);
+    if(pending&&y<=0){pending=false;arrived();}
+  }
+  function onScroll(){if(!raf)raf=requestAnimationFrame(update)}
+  window.addEventListener("scroll",onScroll,{passive:true});
+  window.addEventListener("resize",onScroll,{passive:true});
+  requestAnimationFrame(update);
+  function arrived(){
+    soundArrive();
+    arr.classList.remove("go");void arr.offsetWidth;arr.classList.add("go");
+    btn.classList.remove("show");
+    sr.textContent="Vous êtes en haut de la page.";
+    var h=document.getElementById("titre"); if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true});}
+  }
+  function sparks(){
+    if(reduce) return; var r=btn.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+    for(var k=0;k<14;k++){var s=document.createElement("span");s.className="spark";var a=Math.PI*2*k/14,d=40+Math.random()*30;
+      s.style.left=cx+"px";s.style.top=cy+"px";s.style.setProperty("--x",Math.cos(a)*d+"px");s.style.setProperty("--y",Math.sin(a)*d+"px");
+      document.body.appendChild(s);setTimeout(function(e){e.remove()}.bind(null,s),850);}
+  }
+  btn.addEventListener("click",function(){
+    if((window.scrollY||root.scrollTop)<=0) return;
+    soundStart(); sparks();
+    btn.classList.remove("launch");void btn.offsetWidth;btn.classList.add("launch");
+    pending=true;
+    window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
+    update();
+  });
+  function cancel(){ if(pending){ var y=window.scrollY||root.scrollTop; if(y>0) pending=false; } }
+  window.addEventListener("wheel",function(e){if(e.deltaY>0)cancel()},{passive:true});
+  window.addEventListener("touchmove",cancel,{passive:true});
+  window.addEventListener("keydown",function(e){if(["ArrowDown","PageDown","End"," "].indexOf(e.key)>-1)cancel()});
+})();
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var q=document.querySelector(".hero .qr"),c=document.getElementById("qr-card");
+  if(!q||!c) return;
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if(!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  var raf=0,ev=null;
+  function apply(){
+    raf=0; if(!ev) return;
+    var r=c.getBoundingClientRect(),x=(ev.clientX-r.left)/r.width,y=(ev.clientY-r.top)/r.height;
+    x=Math.min(1,Math.max(0,x)); y=Math.min(1,Math.max(0,y));
+    c.style.setProperty("--ry",((x-.5)*18).toFixed(2)+"deg");
+    c.style.setProperty("--rx",((.5-y)*18).toFixed(2)+"deg");
+    c.style.setProperty("--mx",(x*100).toFixed(1)+"%");
+    c.style.setProperty("--my",(y*100).toFixed(1)+"%");
+  }
+  q.addEventListener("pointermove",function(e){ev=e;if(!raf)raf=requestAnimationFrame(apply)});
+  q.addEventListener("pointerleave",function(){
+    ev=null;
+    c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg");
+    c.style.setProperty("--mx","50%");c.style.setProperty("--my","50%");
+  });
+})();
+</script>
+
+<!-- ===== AJOUT : style premium « époustouflant » (fonds animés, entrée du hero, cartes, transitions) ===== -->
+<div class="wow-aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<canvas class="wow-dust" id="wow-dust" aria-hidden="true"></canvas>
+<div class="wow-spot" id="wow-spot" aria-hidden="true"></div>
+<style>
+  @property --wow-ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+
+  ::selection{background:var(--gold-hi);color:#16130D}
+
+  /* ── Fonds vivants (derrière tout le contenu) : aurore dorée, poussière d'or, halo qui suit la souris */
+  .wow-aurora{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+  .wow-aurora i{position:absolute;width:60vmax;height:60vmax;border-radius:50%}
+  .wow-aurora i:nth-child(1){top:-25vmax;right:-18vmax;background:radial-gradient(circle,var(--wow-au1),transparent 62%);animation:wow-drift1 26s ease-in-out infinite alternate}
+  .wow-aurora i:nth-child(2){top:35vh;left:-25vmax;background:radial-gradient(circle,var(--wow-au2),transparent 62%);animation:wow-drift2 32s ease-in-out infinite alternate}
+  .wow-aurora i:nth-child(3){bottom:-30vmax;right:10vw;background:radial-gradient(circle,var(--wow-au3),transparent 62%);animation:wow-drift3 38s ease-in-out infinite alternate}
+  .wow-dust{position:fixed;inset:0;z-index:-1;pointer-events:none}
+  .wow-spot{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .6s;
+    background:radial-gradient(600px circle at var(--cx,50%) var(--cy,-20%),var(--wow-spot),transparent 60%)}
+  .wow-spot.on{opacity:1}
+
+  /* ── Bandeau d'outils : reflet doré qui balaie le filet du bas */
+  .bar{overflow:hidden}
+  .bar::after{content:"";position:absolute;bottom:-1px;left:0;width:30%;height:1px;pointer-events:none;
+    background:linear-gradient(90deg,transparent,#E2C26A,#FFF3C8,#E2C26A,transparent);animation:wow-sweep 7s linear infinite}
+
+  /* ── En-tête : lumière dorée qui dérive + filet d'or animé */
+  .hero{position:relative;overflow:hidden;isolation:isolate}
+  .hero::before{content:"";position:absolute;inset:-40%;z-index:-1;pointer-events:none;
+    background:radial-gradient(30% 35% at 70% 30%,rgba(226,194,106,.20),transparent 70%),
+      radial-gradient(25% 30% at 22% 78%,rgba(184,144,42,.14),transparent 70%);
+    animation:wow-hero-glow 18s ease-in-out infinite alternate}
+  .hero::after{content:"";position:absolute;bottom:-.25rem;left:0;width:30%;height:.25rem;pointer-events:none;
+    background:linear-gradient(90deg,transparent,#FFF3C8,transparent);animation:wow-sweep 6s linear infinite}
+  .hero h1 em{background:linear-gradient(100deg,#F0D68C 0%,#F0D68C 35%,#FFF6D6 50%,#F0D68C 65%,#F0D68C 100%);
+    background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+    padding-right:.1em;animation:wow-shimmer 6s linear infinite}
+  .chips li{transition:border-color .3s,background .3s,color .3s,translate .3s}
+  .chips li:hover{border-color:#E2C26A;background:rgba(226,194,106,.12);color:#FFF3C8;translate:0 -2px}
+
+  /* ── Entrée orchestrée de l'en-tête après le rideau (uniquement si l'intro est active) */
+  html.wow{--wb:2s}
+  html.wow.wow-skip{--wb:0s}
+  html.wow .hero .eyebrow{animation:wow-in-left .9s cubic-bezier(.2,.8,.2,1) calc(var(--wb) + .05s) both}
+  html.wow .hero h1{animation:wow-clip 1.15s cubic-bezier(.2,.8,.2,1) calc(var(--wb) + .15s) both}
+  html.wow .hero .lede{animation:wow-in-up .9s cubic-bezier(.2,.8,.2,1) calc(var(--wb) + .4s) both}
+  html.wow .hero .chips li{animation:wow-in-up .6s cubic-bezier(.2,.8,.2,1) both}
+  html.wow .hero .chips li:nth-child(1){animation-delay:calc(var(--wb) + .55s)}
+  html.wow .hero .chips li:nth-child(2){animation-delay:calc(var(--wb) + .62s)}
+  html.wow .hero .chips li:nth-child(3){animation-delay:calc(var(--wb) + .69s)}
+  html.wow .hero .chips li:nth-child(4){animation-delay:calc(var(--wb) + .76s)}
+  html.wow .hero .chips li:nth-child(5){animation-delay:calc(var(--wb) + .83s)}
+  html.wow .hero .qr{animation-delay:calc(var(--wb) + .45s),calc(var(--wb) + 1.7s)}
+
+  /* ── Apparitions au défilement : flou → net, avec léger zoom */
+  .wow-rv{opacity:0;transform:translateY(26px) scale(.985);filter:blur(8px);
+    transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1),filter .9s ease}
+  .wow-rv.in{opacity:1;transform:none;filter:none}
+  .phase::after{transform-origin:0 50%;transition:transform 1.2s cubic-bezier(.2,.8,.2,1) .3s}
+  .phase.wow-rv:not(.in)::after{transform:scaleX(0)}
+
+  /* ── Numéros d'étape : s'illuminent à l'arrivée de chaque étape */
+  .num{transition:box-shadow .8s ease .2s,background .8s ease .2s}
+  .step.in .num{background:radial-gradient(circle at 35% 30%,#4A3E22,var(--obsidian));box-shadow:inset 0 0 0 3px rgba(226,194,106,.35),inset 0 0 14px rgba(240,214,140,.45)}
+  .step h3{transition:color .3s}
+  .step:hover h3{color:var(--gold)}
+
+  /* ── Cartes : projecteur qui suit la souris, élévation dorée au survol */
+  .card,.example,.picker{position:relative;isolation:isolate;transition:translate .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s,border-color .45s}
+  .card::before,.example::before,.picker::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;pointer-events:none;
+    opacity:0;transition:opacity .4s;background:radial-gradient(340px circle at var(--sx,50%) var(--sy,50%),var(--wow-card-spot),transparent 65%)}
+  .card:hover::before,.example:hover::before,.picker:hover::before{opacity:1}
+  .grid2>.card:hover,.example:hover{translate:0 -4px;border-color:var(--gold-hi);box-shadow:var(--wow-card-sh)}
+  .tip{transition:border-left-color .3s,box-shadow .3s}
+  .tip:hover{border-left-color:var(--gold);box-shadow:0 6px 20px var(--wow-ring)}
+  .verbs li{transition:border-color .3s,translate .3s}
+  .verbs:not(.bad) li:hover{border-color:var(--gold-hi);translate:0 -2px}
+
+  /* Cadres « signature » : bordure de lumière qui tourne */
+  
+.picker::after,
+.card.calc::after,
+.card.model::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+
+    background: conic-gradient(
+        from var(--wow-ang),
+        transparent 0 70%,
+        var(--gold-hi) 84%,
+        var(--wow-hi) 88%,
+        transparent 96%
+    );
+
+    /* Compatibilité avec les navigateurs WebKit */
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+
+    /* Propriété standard */
+    mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    mask-composite: exclude;
+
+    /* Animation de la bordure lumineuse */
+    animation: wow-ang 8s linear infinite;
+}
+
+
+  /* ── Sommaire, tableaux, boutons, liste de relecture */
+  .toc li a{transition:background .25s,color .25s,box-shadow .25s,padding-left .25s}
+  .toc li a.on{box-shadow:inset 3px 0 0 var(--gold-hi)}
+  .toc li a:hover{padding-left:.8rem}
+  tbody tr td{transition:background .3s}
+  tbody tr:hover td{background:var(--gold-soft)}
+  .seg label{transition:background .2s,border-color .2s,box-shadow .3s,translate .3s}
+  .seg label:hover{translate:0 -2px;box-shadow:0 6px 18px var(--wow-ring)}
+  .btn{transition:transform .15s,background .2s,box-shadow .3s}
+  .btn:hover{box-shadow:0 0 0 4px var(--wow-ring),0 8px 24px var(--wow-glow)}
+  .check label{transition:color .3s}
+  .check li:has(input:checked) label{color:var(--gold)}
+  .check input:checked{animation:wow-check .45s cubic-bezier(.2,1.6,.3,1)}
+
+  /* ── Pied de page : filet d'or */
+  footer{position:relative;border-top-color:transparent}
+  footer::before{content:"";position:absolute;top:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-hi),transparent)}
+
+  /* ── Changement de thème : révélation circulaire depuis le bouton */
+  ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+
+  @keyframes wow-drift1{to{transform:translate(-12vmax,10vmax) scale(1.15)}}
+  @keyframes wow-drift2{to{transform:translate(14vmax,-8vmax) scale(1.2)}}
+  @keyframes wow-drift3{to{transform:translate(-10vmax,-12vmax) scale(.9)}}
+  @keyframes wow-sweep{from{transform:translateX(-100%)}to{transform:translateX(340%)}}
+  @keyframes wow-hero-glow{to{transform:translate(-8%,6%) scale(1.15)}}
+  @keyframes wow-shimmer{from{background-position:100% 0}to{background-position:-150% 0}}
+  @keyframes wow-ang{to{--wow-ang:360deg}}
+  @keyframes wow-in-left{from{opacity:0;translate:-40px 0;filter:blur(6px)}to{opacity:1;translate:0 0;filter:none}}
+  @keyframes wow-in-up{from{opacity:0;translate:0 30px;filter:blur(6px)}to{opacity:1;translate:0 0;filter:none}}
+  @keyframes wow-clip{from{opacity:0;translate:0 34px;clip-path:polygon(-10% 130%,110% 130%,110% 130%,-10% 130%)}
+    to{opacity:1;translate:0 0;clip-path:polygon(-10% -30%,110% -30%,110% 130%,-10% 130%)}}
+  @keyframes wow-check{0%{scale:.6}60%{scale:1.3}100%{scale:1}}
+
+  @media (prefers-reduced-motion:reduce){
+    .wow-aurora,.wow-dust,.wow-spot,.hero::after{display:none}
+    .wow-rv{opacity:1!important;transform:none!important;filter:none!important}
+    .bar::after,.hero::before,.hero h1 em,.picker::after,.card.calc::after,.card.model::after,.check input:checked{animation:none!important}
+    .grid2>.card:hover,.example:hover,.chips li:hover,.seg label:hover,.verbs li:hover{translate:none}
+  }
+</style>
+<script>
+(function(){
+  "use strict";
+  var root=document.documentElement;
+  var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine=window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  /* Intro : clic ou touche pour passer, retrait automatique */
+  var intro=document.getElementById("wow-intro");
+  if(intro&&root.classList.contains("wow")){
+    var skip=function(){root.classList.add("wow-skip");window.removeEventListener("keydown",skip);};
+    intro.addEventListener("click",skip);
+    window.addEventListener("keydown",skip);
+    setTimeout(function(){window.removeEventListener("keydown",skip);if(intro.parentNode)intro.parentNode.removeChild(intro);},3200);
+  }
+
+  /* Apparitions au défilement (étapes, titres de phase, sélecteur) */
+  var items=[].slice.call(document.querySelectorAll(".picker,.phase,.step"));
+  if(reduce||!("IntersectionObserver" in window)){
+    items.forEach(function(el){el.classList.add("in");});
+  }else{
+    items.forEach(function(el){el.classList.add("wow-rv");});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}
+    });},{threshold:.08,rootMargin:"0px 0px -6% 0px"});
+    items.forEach(function(el){io.observe(el);});
+  }
+
+  /* Halo de fond + projecteur des cartes qui suivent la souris */
+  var SEL=".card,.example,.picker";
+  if(!reduce&&fine){
+    var spot=document.getElementById("wow-spot"),mx=0,my=0,mt=null,mr=0;
+    window.addEventListener("pointermove",function(e){
+      mx=e.clientX;my=e.clientY;mt=e.target;
+      if(!mr)mr=requestAnimationFrame(function(){
+        mr=0;
+        if(spot){spot.style.setProperty("--cx",mx+"px");spot.style.setProperty("--cy",my+"px");spot.classList.add("on");}
+        var c=mt&&mt.closest?mt.closest(SEL):null;
+        if(c){var r=c.getBoundingClientRect();c.style.setProperty("--sx",(mx-r.left)+"px");c.style.setProperty("--sy",(my-r.top)+"px");}
+      });
+    },{passive:true});
+    document.addEventListener("pointerleave",function(){if(spot)spot.classList.remove("on");});
+  }
+
+  /* Changement de thème : révélation circulaire depuis le bouton (navigateurs compatibles) */
+  var tb=document.getElementById("theme"),mq=window.matchMedia("(prefers-color-scheme: dark)");
+  function isDark(){var t=root.getAttribute("data-theme");return t?t==="dark":mq.matches;}
+  if(tb&&document.startViewTransition&&!reduce){
+    tb.addEventListener("click",function(e){
+      e.stopImmediatePropagation();
+      var n=isDark()?"light":"dark";
+      var r=tb.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
+      var R=Math.hypot(Math.max(x,window.innerWidth-x),Math.max(y,window.innerHeight-y));
+      var vt=document.startViewTransition(function(){
+        root.setAttribute("data-theme",n);
+        try{localStorage.setItem("fs-theme",n);}catch(_){}
+        tb.setAttribute("aria-label",n==="dark"?"Passer en mode clair":"Passer en mode sombre");
+      });
+      vt.ready.then(function(){
+        root.animate({clipPath:["circle(0px at "+x+"px "+y+"px)","circle("+R+"px at "+x+"px "+y+"px)"]},
+          {duration:750,easing:"cubic-bezier(.7,0,.3,1)",pseudoElement:"::view-transition-new(root)"});
+      }).catch(function(){});
+    },true);
+  }
+
+  /* Poussière d'or flottante */
+  var cv=document.getElementById("wow-dust");
+  if(cv&&!reduce&&cv.getContext){
+    var cx=cv.getContext("2d"),W=0,H=0,P=[],col="226,194,106",run=true;
+    var mk=function(any){return{x:Math.random()*W,y:any?Math.random()*H:H+10,r:Math.random()*1.6+.4,
+      vy:-(Math.random()*.25+.05),vx:(Math.random()-.5)*.15,a:Math.random()*6.283,s:Math.random()*.02+.005};};
+    var readCol=function(){var v=getComputedStyle(root).getPropertyValue("--wow-dust").trim();if(v)col=v;};
+    var size=function(){
+      var dpr=Math.min(2,window.devicePixelRatio||1);W=window.innerWidth;H=window.innerHeight;
+      cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+"px";cv.style.height=H+"px";cx.setTransform(dpr,0,0,dpr,0,0);
+      var n=Math.min(70,Math.round(W*H/22000));while(P.length<n)P.push(mk(true));P.length=n;
+    };
+    var loop=function(){
+      if(!run)return;
+      cx.clearRect(0,0,W,H);
+      for(var i=0;i<P.length;i++){
+        var p=P[i];p.x+=p.vx;p.y+=p.vy;p.a+=p.s;
+        if(p.y<-10)P[i]=p=mk(false);
+        var o=.22+.38*Math.sin(p.a);if(o<=0)continue;
+        cx.beginPath();cx.fillStyle="rgba("+col+","+o.toFixed(3)+")";cx.arc(p.x,p.y,p.r,0,6.283);cx.fill();
+      }
+      requestAnimationFrame(loop);
+    };
+    readCol();size();
+    window.addEventListener("resize",size);
+    new MutationObserver(readCol).observe(root,{attributes:true,attributeFilter:["data-theme"]});
+    if(mq.addEventListener)mq.addEventListener("change",readCol);
+    document.addEventListener("visibilitychange",function(){var was=run;run=!document.hidden;if(run&&!was)requestAnimationFrame(loop);});
+    requestAnimationFrame(loop);
+  }
+})();
+</script>
+<!-- ===== FIN AJOUT style premium ===== -->
+
+</body>
+</html>
